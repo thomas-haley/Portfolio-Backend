@@ -34,6 +34,33 @@ public class ContentRepository(DataContext context, ICustomLogger logger) : ICon
         return false;
     }
 
+    public async Task<bool> UpdateContent(int id, ContentDTO content)
+    {
+        AppContent? contentToUpdate = await context.Content.FindAsync(id);
+        if(contentToUpdate == null){
+            return false;
+        }
+        contentToUpdate.visible = content.visible;
+        contentToUpdate.title = content.title;
+        contentToUpdate.description = content.description;
+        contentToUpdate.media = content.media;
+        contentToUpdate.mediaPosition = content.mediaPosition;
+        return true;
+        // contentToUpdate.
+    }
+
+    public async Task<string> RemoveContentByIDAsync(int id)
+    {
+        AppContent? content = await context.Content.FindAsync(id);
+        if(content == null){
+            return "notfound";
+        }
+
+        context.Content.Remove(content);
+        return "complete";
+    }
+    
+
     public async Task<AppContent?> GetContentByIDAsync(int id){
         AppContent? content = await context.Content.FindAsync(id);
         return content;
