@@ -4,11 +4,12 @@ using Portfolio_Backend.Entities;
 using Portfolio_Backend.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 namespace Portfolio_Backend.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger, IMapper mapper): ControllerBase
+public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger, IMapper mapper): BaseController(unitOfWork)
 {
     // [Authorize]
     [HttpPut("create")]
@@ -76,9 +77,39 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
         }
         return NotFound();
     }
+    // [Authorize]
+    [HttpPut("add-content")]
+    public async Task<ActionResult> PutListContent(ContentListContentDTO clcDTO)
+    {
+        string result = await unitOfWork.ContentListContentRepository.CreateRecordAsync(clcDTO);
+        return await this.FinializeResult(result);
+        // if(result == Ok()){
+        //     await unitOfWork.Complete();
+        //     return Ok();
+        // }
+        
+        // return result;
+    }
+    // [Authorize]
+    [HttpPatch("patch-content")]
+    public async Task<ActionResult> PatchListContent()
+    {
+        return Ok();
+    }
+    // [Authorize]
+    [HttpDelete("delete-content")]
+    public async Task<ActionResult> DeleteListContent()
+    {
+        
+
+        return Ok();
+    }
 
 
-
-    
+    [HttpGet("get-content")]
+    public async Task<ActionResult> GetListContent()
+    {
+        return Ok();
+    }
 
 }
