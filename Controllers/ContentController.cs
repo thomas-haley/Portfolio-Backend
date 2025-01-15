@@ -10,7 +10,7 @@ namespace Portfolio_Backend.Controllers;
 [Route("[controller]")]
 public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMapper mapper): ControllerBase
 {
-    // [Authorize]
+    [Authorize]
     [HttpPut("create")]
     public async Task<ActionResult<bool>> CreateContent(ContentDTO content)
     {
@@ -23,7 +23,7 @@ public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
         }
         return Ok(results);
     }
-    // [Authorize]
+    [Authorize]
     [HttpPatch("{id:int}/{field}")]
     public async Task<ActionResult<bool>> SetContentFieldByIDAsync(int id, string field){
         string body = await new StreamReader(Request.Body).ReadToEndAsync();
@@ -36,7 +36,7 @@ public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
         return Ok(results);
     }
 
-    // [Authorize]
+    [Authorize]
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<bool>> SetContentByIDAsync(int id, ContentDTO content){
         bool results = await unitOfWork.ContentRepository.UpdateContent(id, content);
@@ -47,7 +47,7 @@ public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
         return Ok(results);
     }
 
-    // [Authorize]
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<bool>> RemoveContentByIDAsync(int id)
     {

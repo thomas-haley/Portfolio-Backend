@@ -12,7 +12,7 @@ namespace Portfolio_Backend.Controllers;
 [Route("[controller]")]
 public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger, IMapper mapper): BaseController(unitOfWork)
 {
-    // [Authorize]
+    [Authorize]
     [HttpPut("create")]
     public async Task<ActionResult<bool>> CreateContentList(ContentListDTO contentList)
     {
@@ -25,7 +25,7 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
         return Ok(results);
     }
 
-    // [Authorize]
+    [Authorize]
     [HttpPatch("{id:int}/{field}")]
     public async Task<ActionResult<bool>> SetContentListFieldByIDAsync(int id, string field){
         string body = await new StreamReader(Request.Body).ReadToEndAsync();
@@ -38,7 +38,7 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
         return Ok(results);
     }
 
-    // [Authorize]
+    [Authorize]
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<bool>> SetContentListByIDAsync(int id, ContentListDTO contentList){
         bool results = await unitOfWork.ContentListRepository.UpdateContentList(id, contentList);
@@ -49,7 +49,7 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
         return Ok(results);
     }
 
-    // [Authorize]
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult<bool>> RemoveContentListByIDAsync(int id)
     {
@@ -65,6 +65,7 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
     public async Task<ActionResult<ContentListDTO?>> GetContentListByIDAsync(int id){
         ContentListDTO? results = await unitOfWork.ContentListRepository.GetContentListByIDAsync(id);
         if(results != null){
+            results.Content = await unitOfWork.ContentListContentRepository.LoadRecordsForListAsync(results);
             return Ok(results);
         }
         return NotFound();
@@ -78,21 +79,21 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
         }
         return NotFound();
     }
-    // [Authorize]
+    [Authorize]
     [HttpPut("content/add-content")]
     public async Task<ActionResult> PutListContent(ContentListContentDTO clcDTO)
     {
         string result = await unitOfWork.ContentListContentRepository.CreateRecordAsync(clcDTO);
         return await this.FinializeResult(result);
     }
-    // [Authorize]
+    [Authorize]
     [HttpPatch("content/patch-content")]
     public async Task<ActionResult> PatchListContent(ContentListContentDTO clcDTO)
     {
         string result = await unitOfWork.ContentListContentRepository.UpdateRecordAsync(clcDTO);
         return await this.FinializeResult(result);
     }
-    // [Authorize]
+    [Authorize]
     [HttpDelete("content/delete-content")]
     public async Task<ActionResult> DeleteListContent(ContentListContentDTO clcDTO)
     {

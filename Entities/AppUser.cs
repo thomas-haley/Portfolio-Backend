@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Portfolio_Backend.Entities;
 
+[Table("user")]
 public class AppUser 
 {
     public int Id { get; set; }
@@ -8,6 +11,4 @@ public class AppUser
     public required byte[] PasswordHash {get; set;}
     public required byte[] PasswordSalt {get; set;}
 
-    public bool DataUploaded {get; set;} = false;
-    public bool AllowUpload {get; set;} = true;
 }
