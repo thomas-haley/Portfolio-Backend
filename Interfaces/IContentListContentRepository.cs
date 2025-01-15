@@ -10,4 +10,9 @@ public interface IContentListContentRepository
     void Update(AppContentListContent content);
 
     public Task<string> CreateRecordAsync(ContentListContentDTO clcDTO);
+
+    public Task<string> UpdateRecordAsync(ContentListContentDTO clcDTO);
+    public Task<string> DeleteRecordAsync(ContentListContentDTO clcDTO);
+
+    public Task<ContentDTO[]?> LoadRecordsForListAsync(ContentListDTO clDTO);
 }

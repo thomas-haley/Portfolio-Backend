@@ -12,7 +12,8 @@ public interface IContentListRepository
 
     public Task<bool> UpdateContentList(int id, ContentListDTO content);
     public Task<string> RemoveContentListByIDAsync(int id);
-    public Task<AppContentList?> GetContentListByIDAsync(int id);
+    public Task<ContentListDTO?> GetContentListByIDAsync(int id);
     public Task<Object?> GetContentListFieldByIDAsync(int id, string field);
     public Task<bool> SetContentListFieldByIDAsync(int id, string field, object value);
+
 }

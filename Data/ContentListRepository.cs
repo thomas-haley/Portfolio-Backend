@@ -48,9 +48,12 @@ public class ContentListRepository(DataContext context, IMapper mapper) : IConte
     }
     
 
-    public async Task<AppContentList?> GetContentListByIDAsync(int id){
-        AppContentList? content = await context.ContentList.FindAsync(id);
-        return content;
+    public async Task<ContentListDTO?> GetContentListByIDAsync(int id){
+        AppContentList? contentList = await context.ContentList.FindAsync(id);
+        if(contentList == null){
+            return null;
+        }
+        return mapper.Map<ContentListDTO>(contentList);
     }
 
     public async Task<Object?> GetContentListFieldByIDAsync(int id, string field)
@@ -80,4 +83,5 @@ public class ContentListRepository(DataContext context, IMapper mapper) : IConte
         setField.SetValue(contentList,  castedValue);
         return true;
     }
+
 }

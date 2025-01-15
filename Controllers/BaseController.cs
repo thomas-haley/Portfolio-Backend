@@ -20,6 +20,8 @@ public class BaseController(IUnitOfWork unitOfWork): ControllerBase
                 return NotFound();
             case ("bad-request"):
                 return BadRequest();
+            case ("conflict"):
+                return Conflict();
             default:
                 return Problem();
         }

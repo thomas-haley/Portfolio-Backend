@@ -5,6 +5,7 @@ using Portfolio_Backend.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Portfolio_Backend.Data;
 namespace Portfolio_Backend.Controllers;
 
 [ApiController]
@@ -62,9 +63,9 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ContentListDTO?>> GetContentListByIDAsync(int id){
-        AppContentList? results = await unitOfWork.ContentListRepository.GetContentListByIDAsync(id);
+        ContentListDTO? results = await unitOfWork.ContentListRepository.GetContentListByIDAsync(id);
         if(results != null){
-            return Ok(mapper.Map<ContentListDTO>(results));
+            return Ok(results);
         }
         return NotFound();
     }
@@ -78,38 +79,43 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
         return NotFound();
     }
     // [Authorize]
-    [HttpPut("add-content")]
+    [HttpPut("content/add-content")]
     public async Task<ActionResult> PutListContent(ContentListContentDTO clcDTO)
     {
         string result = await unitOfWork.ContentListContentRepository.CreateRecordAsync(clcDTO);
         return await this.FinializeResult(result);
-        // if(result == Ok()){
-        //     await unitOfWork.Complete();
-        //     return Ok();
-        // }
-        
-        // return result;
     }
     // [Authorize]
-    [HttpPatch("patch-content")]
-    public async Task<ActionResult> PatchListContent()
+    [HttpPatch("content/patch-content")]
+    public async Task<ActionResult> PatchListContent(ContentListContentDTO clcDTO)
     {
-        return Ok();
+        string result = await unitOfWork.ContentListContentRepository.UpdateRecordAsync(clcDTO);
+        return await this.FinializeResult(result);
     }
     // [Authorize]
-    [HttpDelete("delete-content")]
-    public async Task<ActionResult> DeleteListContent()
+    [HttpDelete("content/delete-content")]
+    public async Task<ActionResult> DeleteListContent(ContentListContentDTO clcDTO)
     {
-        
-
-        return Ok();
+        string result = await unitOfWork.ContentListContentRepository.DeleteRecordAsync(clcDTO);
+        return await this.FinializeResult(result);
     }
 
 
-    [HttpGet("get-content")]
-    public async Task<ActionResult> GetListContent()
+    [HttpGet("content/{id:int}")]
+    public async Task<ActionResult<ContentListDTO?>> GetListContent(int id)
     {
-        return Ok();
+        //Load content list container
+        ContentListDTO? contentListDTO = await unitOfWork.ContentListRepository.GetContentListByIDAsync(id);
+        if(contentListDTO == null){
+            return NotFound();
+        }
+
+        //Fill content list container with bound content
+        contentListDTO.Content = await unitOfWork.ContentListContentRepository.LoadRecordsForListAsync(contentListDTO);
+        if(contentListDTO.Content == null){
+            return NotFound();
+        }
+        return Ok(contentListDTO);
     }
 
 }
