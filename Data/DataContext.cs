@@ -10,5 +10,5 @@ public class DataContext(DbContextOptions options) : DbContext(options)
     public DbSet<AppContentList> ContentList {get; set;}
     public DbSet<AppContentListContent> ContentListContent {get; set;}
 
-    public DbSet<AppUser> Users {get; set;}
+    public DbSet<AppUser> User {get; set;}
 }
