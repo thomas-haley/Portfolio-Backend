@@ -39,8 +39,6 @@ public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
     // [Authorize]
     [HttpPatch("{id:int}")]
     public async Task<ActionResult<bool>> SetContentByIDAsync(int id, ContentDTO content){
-        // string body = await new StreamReader(Request.Body).ReadToEndAsync();
-        // bool results = await unitOfWork.ContentRepository.SetContentFieldByIDAsync(id, field, body);
         bool results = await unitOfWork.ContentRepository.UpdateContent(id, content);
         if(results)
         {
@@ -71,7 +69,7 @@ public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
     }
 
     [HttpGet("{id:int}/{field}")]
-    public async Task<ActionResult<Object?>> GetContenFieldByIDAsync(int id, string field){
+    public async Task<ActionResult<Object?>> GetContentFieldByIDAsync(int id, string field){
         Object? results = await unitOfWork.ContentRepository.GetContentFieldByIDAsync(id, field);
         if(results != null){
             return Ok(results);

@@ -10,5 +10,8 @@ public class AutoMapperProfiles : Profile
     public AutoMapperProfiles()
     {
         CreateMap<AppContent, ContentDTO>();
+        CreateMap<ContentDTO, AppContent>();
+        CreateMap<AppContentList, ContentListDTO>();
+        CreateMap<ContentListDTO, AppContentList>();
     }
 }
