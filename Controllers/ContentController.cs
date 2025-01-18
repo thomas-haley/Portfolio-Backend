@@ -59,6 +59,20 @@ public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
         return Ok(result == "complete");
     }
 
+    [Authorize]
+    [HttpGet("")]
+    public async Task<ActionResult<List<ContentDTO>>> GetAllContentAsync(){
+        List<AppContent> results = await unitOfWork.ContentRepository.GetAllContent();
+
+        List<ContentDTO> dtoList = [];
+
+        foreach (AppContent content in results){
+            dtoList.Add(mapper.Map<ContentDTO>(content));
+        }
+        
+        return Ok(dtoList);
+    }
+
     [HttpGet("{id:int}")]
     public async Task<ActionResult<ContentDTO?>> GetContentByIDAsync(int id){
         AppContent? results = await unitOfWork.ContentRepository.GetContentByIDAsync(id);

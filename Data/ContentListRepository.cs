@@ -24,9 +24,9 @@ public class ContentListRepository(DataContext context, IMapper mapper) : IConte
         return true;
     }
 
-    public async Task<bool> UpdateContentList(int id, ContentListDTO content)
+    public async Task<bool> UpdateContentList(string tag, ContentListDTO content)
     {
-        AppContentList? contentListToUpdate = await context.ContentList.FindAsync(id);
+        AppContentList? contentListToUpdate = await context.ContentList.Where(cl => cl.Tag == tag).SingleAsync();
         if(contentListToUpdate == null){
             return false;
         }
@@ -36,9 +36,9 @@ public class ContentListRepository(DataContext context, IMapper mapper) : IConte
         return true;
     }
 
-    public async Task<string> RemoveContentListByIDAsync(int id)
+    public async Task<string> RemoveContentListByTagAsync(string tag)
     {
-        AppContentList? contentList = await context.ContentList.FindAsync(id);
+        AppContentList? contentList = await context.ContentList.Where(cl => cl.Tag == tag).SingleAsync();
         if(contentList == null){
             return "notfound";
         }
@@ -48,17 +48,17 @@ public class ContentListRepository(DataContext context, IMapper mapper) : IConte
     }
     
 
-    public async Task<ContentListDTO?> GetContentListByIDAsync(int id){
-        AppContentList? contentList = await context.ContentList.FindAsync(id);
+    public async Task<ContentListDTO?> GetContentListByTagAsync(string tag){
+        AppContentList? contentList = await context.ContentList.Where(cl => cl.Tag == tag).SingleAsync();
         if(contentList == null){
             return null;
         }
         return mapper.Map<ContentListDTO>(contentList);
     }
 
-    public async Task<Object?> GetContentListFieldByIDAsync(int id, string field)
+    public async Task<Object?> GetContentListFieldByTagAsync(string tag, string field)
     {
-        AppContentList? contentList = await context.ContentList.FindAsync(id);
+        AppContentList? contentList = await context.ContentList.Where(cl => cl.Tag == tag).SingleAsync();
         PropertyInfo? searchField = typeof(AppContentList).GetProperty(field);
         if(searchField == null || contentList == null){
             return null;
@@ -66,9 +66,9 @@ public class ContentListRepository(DataContext context, IMapper mapper) : IConte
         return searchField.GetValue(contentList);
     }
 
-    public async Task<bool> SetContentListFieldByIDAsync(int id, string field, object value){
+    public async Task<bool> SetContentListFieldByTagAsync(string tag, string field, object value){
 
-        AppContentList? contentList = await context.ContentList.FindAsync(id);
+        AppContentList? contentList = await context.ContentList.Where(cl => cl.Tag == tag).SingleAsync();
         PropertyInfo? setField = typeof(AppContentList).GetProperty(field);
 
         if(contentList == null || setField == null)

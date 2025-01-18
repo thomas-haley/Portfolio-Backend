@@ -46,6 +46,12 @@ public class ContentRepository(DataContext context, ICustomLogger logger, IMappe
         context.Content.Remove(content);
         return "complete";
     }
+
+
+    public async Task<List<AppContent>> GetAllContent(){
+        List<AppContent?> content = await context.Content.ToListAsync();
+        return content;
+    }
     
 
     public async Task<AppContent?> GetContentByIDAsync(int id){
