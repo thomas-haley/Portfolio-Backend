@@ -20,6 +20,7 @@ public static class ApplicationServiceExtensions
         services.AddScoped<IContentListRepository, ContentListRepository>();
         services.AddScoped<IContentListContentRepository, ContentListContentRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IInquiryRepository, InquiryRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

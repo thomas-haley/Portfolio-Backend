@@ -7,7 +7,8 @@ public interface IUnitOfWork
     IContentRepository ContentRepository {get;}
     IContentListRepository ContentListRepository {get;}
     IContentListContentRepository ContentListContentRepository {get;}
-    public IUserRepository UserRepository {get;}
+    IUserRepository UserRepository {get;}
+    IInquiryRepository InquiryRepository {get;}
     Task<bool> Complete();
     bool HasChanges();
 }

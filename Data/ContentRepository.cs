@@ -5,7 +5,6 @@ using System.Reflection;
 using AutoMapper.Internal;
 using Portfolio_Backend.DTOs;
 using AutoMapper;
-using System.Reflection;
 namespace Portfolio_Backend.Data;
 
 public class ContentRepository(DataContext context, ICustomLogger logger, IMapper mapper) : IContentRepository
