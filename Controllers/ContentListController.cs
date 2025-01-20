@@ -81,21 +81,21 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
     }
     [Authorize]
     [HttpPut("content/add-content")]
-    public async Task<ActionResult> PutListContent(ContentListContentDTO clcDTO)
+    public async Task<ActionResult<GenericResponseDTO?>> PutListContent(ContentListContentDTO clcDTO)
     {
         string result = await unitOfWork.ContentListContentRepository.CreateRecordAsync(clcDTO);
         return await this.FinializeResult(result);
     }
     [Authorize]
     [HttpPatch("content/patch-content")]
-    public async Task<ActionResult> PatchListContent(ContentListContentDTO clcDTO)
+    public async Task<ActionResult<GenericResponseDTO?>> PatchListContent(ContentListContentDTO clcDTO)
     {
         string result = await unitOfWork.ContentListContentRepository.UpdateRecordAsync(clcDTO);
         return await this.FinializeResult(result);
     }
     [Authorize]
     [HttpDelete("content/delete-content")]
-    public async Task<ActionResult> DeleteListContent(ContentListContentDTO clcDTO)
+    public async Task<ActionResult<GenericResponseDTO?>> DeleteListContent(ContentListContentDTO clcDTO)
     {
         string result = await unitOfWork.ContentListContentRepository.DeleteRecordAsync(clcDTO);
         return await this.FinializeResult(result);

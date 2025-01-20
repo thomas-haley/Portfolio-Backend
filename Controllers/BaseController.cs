@@ -11,18 +11,20 @@ public class BaseController(IUnitOfWork unitOfWork): ControllerBase
 {
 
 
-    public async Task<ActionResult> FinializeResult(string result)
+    public async Task<ActionResult<GenericResponseDTO?>> FinializeResult(string result)
     {
+        GenericResponseDTO responseDTO = new GenericResponseDTO();
+        responseDTO.Message = result;
         switch (result){
             case ("complete"):
                 await unitOfWork.Complete();
-                return Ok();
+                return Ok(responseDTO);
             case ("not-found"):
-                return NotFound();
+                return NotFound(responseDTO);
             case ("bad-request"):
-                return BadRequest();
+                return BadRequest(responseDTO);
             case ("conflict"):
-                return Conflict();
+                return Conflict(responseDTO);
             default:
                 return Problem();
         }

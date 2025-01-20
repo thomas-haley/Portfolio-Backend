@@ -13,7 +13,7 @@ namespace Portfolio_Backend.Controllers;
 public class InquiryController(IUnitOfWork unitOfWork, ICustomLogger logger, IMapper mapper): BaseController(unitOfWork)
 {
     [HttpPut("create")]
-    public async Task<ActionResult> CreateInquiry(InquiryDTO inquiry)
+    public async Task<ActionResult<GenericResponseDTO?>> CreateInquiry(InquiryDTO inquiry)
     {
         string results = await unitOfWork.InquiryRepository.CreateInquiryAsync(inquiry);
         return await this.FinializeResult(results);
@@ -22,7 +22,7 @@ public class InquiryController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
 
     [Authorize]
     [HttpPatch("update/{id:int}")]
-    public async Task<ActionResult> UpdateInquiry(int id, InquiryDTO inquiry)
+    public async Task<ActionResult<GenericResponseDTO?>> UpdateInquiry(int id, InquiryDTO inquiry)
     {
         string results = await unitOfWork.InquiryRepository.UpdateInquiryByIDAsync(id, inquiry);
         return await this.FinializeResult(results);
@@ -32,7 +32,7 @@ public class InquiryController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
 
     [Authorize]
     [HttpDelete("delete/{id:int}")]
-    public async Task<ActionResult> DeleteInquiry(int id)
+    public async Task<ActionResult<GenericResponseDTO?>> DeleteInquiry(int id)
     {
         string results = await unitOfWork.InquiryRepository.RemoveInquiryByIDAsync(id);
         return await this.FinializeResult(results);
