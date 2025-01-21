@@ -14,6 +14,7 @@ public interface IContentRepository
 
     public Task<string> RemoveContentByIDAsync(int id);
 
+    public Task<List<AppContent>> GetAllContent();
     public Task<AppContent?> GetContentByIDAsync(int id);
     public Task<Object?> GetContentFieldByIDAsync(int id, string field);
 

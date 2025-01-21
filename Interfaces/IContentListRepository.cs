@@ -10,10 +10,10 @@ public interface IContentListRepository
 
     public Task<bool> CreateContentList(ContentListDTO content);
 
-    public Task<bool> UpdateContentList(int id, ContentListDTO content);
-    public Task<string> RemoveContentListByIDAsync(int id);
-    public Task<ContentListDTO?> GetContentListByIDAsync(int id);
-    public Task<Object?> GetContentListFieldByIDAsync(int id, string field);
-    public Task<bool> SetContentListFieldByIDAsync(int id, string field, object value);
+    public Task<bool> UpdateContentList(string tag, ContentListDTO content);
+    public Task<string> RemoveContentListByTagAsync(string tag);
+    public Task<ContentListDTO?> GetContentListByTagAsync(string tag);
+    public Task<Object?> GetContentListFieldByTagAsync(string tag, string field);
+    public Task<bool> SetContentListFieldByTagAsync(string tag, string field, object value);
 
 }

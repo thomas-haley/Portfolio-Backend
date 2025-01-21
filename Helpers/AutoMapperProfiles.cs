@@ -15,5 +15,7 @@ public class AutoMapperProfiles : Profile
         CreateMap<ContentListDTO, AppContentList>();
         CreateMap<AppUser, SessionDTO>();
         CreateMap<RegisterDTO, AppUser>();
+        CreateMap<InquiryDTO, AppInquiry>();
+        CreateMap<AppInquiry, InquiryDTO>();
     }
 }
