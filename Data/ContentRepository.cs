@@ -48,7 +48,7 @@ public class ContentRepository(DataContext context, ICustomLogger logger, IMappe
 
 
     public async Task<List<AppContent>> GetAllContent(){
-        List<AppContent?> content = await context.Content.ToListAsync();
+        List<AppContent> content = await context.Content.ToListAsync();
         return content;
     }
     
