@@ -11,7 +11,7 @@ var app = builder.Build();
 
 
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://127.0.0.1:4200", "http://localhost:4200", "https://thomashaley.app"));
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://portfolio.thomashaley.app", "http://localhost:4200", "https://thomashaley.app"));
 
 
 app.UseAuthentication();
