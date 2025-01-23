@@ -13,14 +13,19 @@ public class ContentRepository(DataContext context, ICustomLogger logger, IMappe
         context.Entry(channel).State = EntityState.Modified;
     }
 
-    public async Task<bool> CreateContent(ContentDTO content)
+    public async Task<AppContent> CreateContent(ContentDTO content)
     {
-        AppContent appContent = mapper.Map<AppContent>(content);
-
+        AppContent appContent = new AppContent{
+            visible = content.visible,
+            title = content.title,
+            description = content.description,
+            media = content.media,
+            mediaPosition = content.mediaPosition
+        };
         var entity = await context.Content.AddAsync(appContent);
         logger.LogToTerminal(entity, 4);
         
-        return true;
+        return entity.Entity;
     }
 
     public async Task<bool> UpdateContent(int id, ContentDTO content)

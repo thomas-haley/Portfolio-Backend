@@ -17,7 +17,7 @@ public class ContentListContentRepository(DataContext context, ICustomLogger log
     public async Task<string> CreateRecordAsync(ContentListContentDTO clcDTO){
         //Load content and content list records
         AppContent? content = await context.Content.FirstOrDefaultAsync<AppContent>(x => x.Id == clcDTO.Content.Id);
-        AppContentList? contentList = await context.ContentList.FirstOrDefaultAsync<AppContentList>(x => x.Id == clcDTO.ContentList.Id);
+        AppContentList? contentList = await context.ContentList.FirstOrDefaultAsync<AppContentList>(x => (x.Id == clcDTO.ContentList.Id) || (x.Tag == clcDTO.ContentList.Tag));
 
         //Check if content is already bound to content list
         AppContentListContent? boundContent = await context.ContentListContent.FirstOrDefaultAsync<AppContentListContent>(clc => clc.content.Id == clcDTO.Content.Id && clc.content_list.Id == clcDTO.ContentList.Id);
@@ -98,16 +98,9 @@ public class ContentListContentRepository(DataContext context, ICustomLogger log
         public async Task<string> DeleteRecordAsync(ContentListContentDTO clcDTO)
         {
             //Load record to get db refs to ContentList and Content
-            AppContentListContent? boundContent = await context.ContentListContent.Include(clc => clc.content).Include(clc => clc.content_list).FirstOrDefaultAsync<AppContentListContent>(clc => clc.Id == clcDTO.Id);
+            AppContentListContent? boundContent = await context.ContentListContent.Include(clc => clc.content).Include(clc => clc.content_list).FirstOrDefaultAsync<AppContentListContent>(clc => clc.content.Id == clcDTO.Content.Id && clc.content_list.Tag == clcDTO.ContentList.Tag);
             if(boundContent == null){
                 return "not-found";
-            }
-
-            //Check if record context is the same as what the user wants to delete
-            if(boundContent.content.Id != clcDTO.Content.Id || boundContent.content_list.Id != clcDTO.ContentList.Id)
-            {
-                //If record changed before user deleted, return conflict
-                return "conflict";
             }
 
 
