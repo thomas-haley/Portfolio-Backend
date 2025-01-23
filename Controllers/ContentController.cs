@@ -14,14 +14,11 @@ public class ContentController(IUnitOfWork unitOfWork, ICustomLogger logger, IMa
     [HttpPut("create")]
     public async Task<ActionResult<bool>> CreateContent(ContentDTO content)
     {
-        logger.LogToTerminal("test", 4);
-        bool results = await unitOfWork.ContentRepository.CreateContent(content);
-        logger.LogToTerminal("test 2", 4);
-        logger.LogToTerminal(results, 4);
-        if(results){
+        AppContent results = await unitOfWork.ContentRepository.CreateContent(content);
+        if(results != null){
             await unitOfWork.Complete();
         }
-        return Ok(results);
+        return Ok(mapper.Map<ContentDTO>(results));
     }
     [Authorize]
     [HttpPatch("{id:int}/{field}")]

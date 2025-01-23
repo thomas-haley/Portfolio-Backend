@@ -97,6 +97,7 @@ public class ContentListController(IUnitOfWork unitOfWork, ICustomLogger logger,
     [HttpDelete("content/delete-content")]
     public async Task<ActionResult<GenericResponseDTO?>> DeleteListContent(ContentListContentDTO clcDTO)
     {
+        logger.LogToTerminal(clcDTO, 4);
         string result = await unitOfWork.ContentListContentRepository.DeleteRecordAsync(clcDTO);
         return await this.FinializeResult(result);
     }

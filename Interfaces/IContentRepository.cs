@@ -8,7 +8,7 @@ public interface IContentRepository
 {
     void Update(AppContent content);
 
-    public Task<bool> CreateContent(ContentDTO content);
+    public Task<AppContent> CreateContent(ContentDTO content);
 
     public Task<bool> UpdateContent(int id, ContentDTO content);
 
